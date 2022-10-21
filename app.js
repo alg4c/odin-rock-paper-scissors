@@ -1,77 +1,60 @@
-function game() {
-  let score = {
-    player: 0,
-    computer: 0,
-  };
-  for (let i = 0; i < 5; i++) {
-    let result = playRound();
-    if (result == "p") {
-      score.player++;
-    } else if (result == "c") {
-      score.computer++;
-    }
-    console.log(
-      `Player Score: ${score.player} Computer Score ${score.computer}.`
-    );
-  }
-  console.log(
-    //declare winner. solution assumes someone will win. (not all draws)
-    `Game over. ${score.player > score.computer ? "Player" : "Computer"} wins!`
-  );
-}
+//DOM queries
+const btns = document.querySelectorAll("button");
+const text = document.querySelector(".text");
+const playerScore = document.querySelector(".playerScore");
+const computerScore = document.querySelector(".computerScore");
 
-function playRound(player = getPlayerPlay(), computer = getComputerPlay()) {
+//set an event listener for click of any button,call play round when button is clicked. Feed playRound button id
+btns.forEach((btn) => {
+  btn.addEventListener("click", playRound);
+});
+
+//function to play a round, called on button click
+function playRound() {
   let winner;
-
-  console.log(`Player: ${player}, Computer: ${computer}`);
+  //playerMove move equals the id of the button pressed
+  const playerMove = this.id;
+  //get computerMove move using random Int
+  const computerMove = plays[getRandomInt(3)];
   if (
-    (player == "rock" && computer == "scissors") ||
-    (player == "paper" && computer == "rock") ||
-    (player == "scissors" && computer == "paper")
+    (playerMove == "rock" && computerMove == "scissors") ||
+    (playerMove == "paper" && computerMove == "rock") ||
+    (playerMove == "scissors" && computerMove == "paper")
   ) {
     winner = "p";
-    console.log(
-      `You Win! ${player.slice(0, 1).toUpperCase() + player.slice(1)} beats ${
-        computer.slice(0, 1).toUpperCase() + computer.slice(1)
-      }.`
-    );
-  } else if (player == computer) {
-    console.log("This round is a draw.");
+    text.textContent = `You Win! ${
+      playerMove.slice(0, 1).toUpperCase() + playerMove.slice(1)
+    } beats ${computerMove.slice(0, 1).toUpperCase() + computerMove.slice(1)}.`;
+  } else if (playerMove == computerMove) {
+    text.textContent = "This round is a draw.";
   } else {
     winner = "c";
-    console.log(
-      `You Lose! ${
-        computer.slice(0, 1).toUpperCase() + computer.slice(1)
-      } beats ${player.slice(0, 1).toUpperCase() + player.slice(1)}.`
-    );
+    text.textContent = `You Lose! ${
+      computerMove.slice(0, 1).toUpperCase() + computerMove.slice(1)
+    } beats ${playerMove.slice(0, 1).toUpperCase() + playerMove.slice(1)}`;
   }
-  return winner;
-}
-
-const playOptions = {
-  1: "rock",
-  2: "paper",
-  3: "scissors",
-};
-
-function getComputerPlay() {
-  return playOptions[getRandomInt()];
-}
-
-function getPlayerPlay(
-  player = prompt(
-    "Please enter your selection: rock, paper, or scissors"
-  ).toLowerCase()
-) {
-  //validate player move selection
-  while (!Object.values(playOptions).includes(player)) {
-    player = prompt(
-      "Invalid selection. Please enter your selection: rock, paper, or scissors"
-    ).toLowerCase();
+  switch (winner) {
+    case "p":
+      playerScore.textContent++;
+      if (playerScore.textContent == "5") gameOver(winner);
+      break;
+    case "c":
+      computerScore.textContent++;
+      if (computerScore.textContent == "5") gameOver(winner);
+      break;
   }
-  return player.toLowerCase();
 }
 
-function getRandomInt(min = 1, max = 3) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+function gameOver(winner) {
+  winner == "p" ? alert("You Win the Game!") : alert("You Lose the game :(");
+  playerScore.textContent = "0";
+  computerScore.textContent = "0";
+}
+
+//array to hold names of possible plays
+const plays = ["rock", "paper", "scissors"];
+
+//helper func to generate random integer between 0 and max (exclusive)
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 }

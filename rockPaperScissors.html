@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="app.js"></script>
+    <link rel="stylesheet" href="style.css" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Rock Paper Scissors</title>
   </head>
-  <body></body>
+  <body>
+    <div class="score">
+      Game Score
+      <table>
+        <tr>
+          <th>Computer</th>
+          <th>Player</th>
+        </tr>
+        <tr>
+          <td class="computerScore">0</td>
+          <td class="playerScore">0</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="btns">
+      <button class="btn" id="rock">Rock</button>
+      <button class="btn" id="paper">Paper</button>
+      <button class="btn" id="scissors">Scissors</button>
+    </div>
+    <div class="outcome">
+      Outcome
+      <p class="text"></p>
+    </div>
+  </body>
+  <script src="app.js"></script>
 </html>
